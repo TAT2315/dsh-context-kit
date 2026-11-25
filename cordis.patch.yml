@@ -1,0 +1,27 @@
+# bundle 层：只插入一行 Host 插件，用来承载 dsh.client（底栏控件 + 明细弹窗）。
+#
+# 控制半侧（五条规则）不在这里：它必须挂在 profile 的 preset-standard →
+# compaction 组（cordis:group + isolate: { compaction: true }）里，才能拿到该
+# isolate realm 内的 `compaction` 服务实例。挂在 Host 层拿不到（dsh-context-autopilot
+# 1.x 就是这么从来没工作过的）。
+#
+# 这一行的 config 是两个入口共同的、唯一的配置来源：
+# - 显示：thresholdRatio 决定自动压缩线（窗口 × 比例），thresholdTokens 决定提前压线；
+#   contextWindowFallback 只在路由尚未上报窗口时兜底。
+# - 控制：idleOnly / dailyLimit / confirmBefore / sessionThresholds / enabled 原样交给 guard。
+# 改阈值只改这里（或在 profile 的 cordis.patch.yml 里按 id: context-kit 覆盖，
+# 注意 loader 的覆盖会整体替换 config，所以覆盖时要把所有字段重述一遍）。
+- insert:
+    - id: context-kit
+      name: 'dsh-context-kit'
+      config:
+        thresholdTokens: 350000
+        thresholdRatio: 0.43
+        contextWindowFallback: 1048576
+        idleOnly: true
+        dailyLimit: 5
+        confirmBefore: true
+        # 压缩前弹窗里「交接记忆」那一项的新鲜窗口：超过这么多分钟没写过记忆就提示。
+        handoffFreshMinutes: 30
+        # 压缩过后在系统提示里加一行提醒：摘要里的数字只当线索，要回文件核。
+        compactNotice: true

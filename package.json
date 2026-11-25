@@ -1,0 +1,48 @@
+{
+  "name": "dsh-context-kit",
+  "version": "1.1.0",
+  "type": "module",
+  "description": "一个包、两种挂载：聊天底栏的上下文读数与两条压缩线，加上会话提前压缩守卫（五条规则）。",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "compaction",
+    "context-window"
+  ],
+  "license": "MIT",
+  "exports": {
+    ".": "./index.js",
+    "./guard.js": "./guard.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "guard.js",
+    "client.js",
+    "lib/config.js",
+    "lib/rules.js",
+    "lib/notice.js",
+    "selftest.mjs",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE",
+    "docs",
+    "locale/*.json",
+    "icon.svg"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  }
+}

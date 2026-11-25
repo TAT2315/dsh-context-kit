@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Context kit",
+    "description": "One package, two mounts: a composer-dock context reading with both compaction lines (automatic and early), plus five-rule early compaction while the session is idle.",
+    "detail": "docs/DETAIL.md"
+  }
+}
